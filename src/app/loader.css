@@ -1,0 +1,106 @@
+/* Imported after the editorial system: a distinct, visible opening at every route. */
+.intro-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  pointer-events: auto;
+  color: #e8dfcd;
+  background: transparent;
+  animation: seven-loader-failsafe 5s steps(1, end) forwards;
+}
+.intro-loader[hidden] { display: none !important; }
+.intro-loader-panel {
+  position: relative;
+  background: #29251f;
+  transform-origin: center;
+  will-change: transform;
+}
+.intro-loader-panel:first-child { border-right: 1px solid #b69e6a33; }
+.intro-loader-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: .28;
+  background: repeating-linear-gradient(90deg, transparent 0, transparent 77px, #bca77a10 78px, transparent 79px);
+}
+.intro-loader-copy {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 24px;
+  text-align: center;
+  will-change: opacity, transform;
+}
+.intro-loader-copy > .intro-loader-kicker {
+  margin: 0 0 40px;
+  font-size: 9px;
+  letter-spacing: .28em;
+  color: #bba985;
+}
+.intro-loader-brand {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: .16em;
+  font: 400 clamp(75px, 10.5vw, 175px)/.8 var(--font-serif), Georgia, serif;
+  letter-spacing: -.055em;
+}
+.intro-loader-brand em { font-weight: 400; color: #bda57b; }
+.intro-loader-copy p {
+  margin-top: 40px;
+  font: italic 400 clamp(24px, 2.2vw, 36px)/1.2 var(--font-serif), Georgia, serif;
+  color: #c9bda5;
+}
+.intro-loader-line {
+  display: block;
+  width: 132px;
+  height: 1px;
+  margin-top: 36px;
+  overflow: hidden;
+  background: #e6d8b721;
+}
+.intro-loader-line i {
+  display: block;
+  width: 50%;
+  height: 1px;
+  background: #bda57b;
+  scale: 1;
+  animation: seven-loading-thread 1.7s cubic-bezier(.4, 0, .2, 1) infinite;
+}
+.intro-loader-copy > .intro-loader-status {
+  margin-top: 17px;
+  font-size: 9px;
+  letter-spacing: .2em;
+  color: #baaa8a;
+}
+.intro-loader-copy > .intro-loader-signature {
+  position: absolute;
+  bottom: 45px;
+  margin: 0;
+  font-size: 8px;
+  letter-spacing: .18em;
+  color: #a7987b;
+}
+@keyframes seven-loading-thread {
+  from { transform: translateX(-110%); }
+  to { transform: translateX(310%); }
+}
+@keyframes seven-loader-failsafe {
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+@media (max-width: 768px) {
+  .intro-loader-brand { font-size: clamp(65px, 19vw, 125px); gap: .13em; }
+  .intro-loader-copy > .intro-loader-kicker { font-size: 8px; margin-bottom: 32px; }
+  .intro-loader-copy p { margin-top: 32px; font-size: 26px; }
+  .intro-loader-copy > .intro-loader-signature { bottom: 32px; font-size: 7px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-loader { display: grid; animation-duration: 5s !important; }
+  .intro-loader-line i { animation: none !important; width: 100%; }
+}

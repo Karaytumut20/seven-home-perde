@@ -1,0 +1,194 @@
+/* Material-led art direction: ivory paper, walnut, bronze, daylight. */
+:root {
+  --background: #f3efe6;
+  --foreground: #352f27;
+  --muted: #756f64;
+  --line: #d4ccbd;
+  --surface: #e4ddcf;
+  --accent: #857154;
+  --forest: #282c26;
+  --bronze: #ac926a;
+  --page-padding: clamp(24px, 5.5vw, 104px);
+}
+body { background: var(--background); }
+.site-header { border-color: #d4ccbd80; }
+.wordmark-name { letter-spacing: -.025em; }
+.brand-symbol { color: var(--accent); }
+.micro { letter-spacing: .17em; }
+.text-link { position: relative; border: 0; padding-bottom: 13px; }
+.text-link::after { content: ""; position: absolute; inset: auto 0 0; height: 1px; background: currentColor; opacity: .4; transform-origin: left; transition: transform .75s var(--ease-out), opacity .75s; }
+.text-link:hover::after { transform: scaleX(.75); opacity: .9; }
+.title-line { display: block; overflow: clip; padding: .1em .03em .15em 0; margin-bottom: -.15em; }
+.title-line > * { display: block; transform-origin: left bottom; }
+.title-line:focus-within { overflow: visible; }
+.editorial-photo-plane { position: absolute; inset: 0; }
+html[data-page-loading="true"] [data-title-enter] .title-line > * { visibility: hidden; }
+html[data-page-loading="true"] [data-enter],
+html[data-page-loading="true"] .prologue-photograph { opacity: 0; }
+[data-image-reveal] { overflow: hidden; }
+.story-intro { padding-block: clamp(110px, 13vw, 210px); }
+.story-margin .micro { max-width: 130px; font-size: 10px; line-height: 1.9; }
+.story-line { height: 130px; margin-top: 32px; background: linear-gradient(var(--bronze), transparent); }
+.story-body h2 { font-size: clamp(60px, 6.8vw, 118px); letter-spacing: -.045em; }
+.story-bottom { grid-template-columns: .52fr 1fr; gap: 8vw; margin-top: 70px; }
+.story-swatch { max-width: 205px; aspect-ratio: .78; }
+.story-bottom p { font-size: clamp(14px, 1.14vw, 17px); line-height: 1.95; }
+.story-bottom > div { max-width: 420px; }
+.atmosphere-heading h2 { font-size: clamp(62px, 7.4vw, 124px); }
+.atmosphere-heading .micro { color: var(--accent); }
+.atmosphere-intro { font-size: 14px; max-width: 320px; }
+.atmosphere-feature { padding-bottom: 165px; }
+/* The photograph overlaps the boundary, tying the dark material chapter to light. */
+.collection-showcase { position: relative; padding-block: 80px 125px; gap: 9vw; }
+.collection-showcase::before { content: ""; position: absolute; inset: -100px 0 auto; height: 100px; background: var(--forest); }
+.showcase-copy { position: relative; z-index: 2; }
+.collection-showcase h2 { font-size: clamp(46px, 4.6vw, 80px); max-width: 540px; }
+.collection-showcase h2 em { color: #c1af90; }
+.showcase-intro { color: #cdc8bc; font-size: 14px; max-width: 340px; }
+.showcase-art { position: relative; z-index: 3; align-self: start; margin-top: -230px; margin-bottom: 20px; }
+.showcase-images { aspect-ratio: .7; }
+.collection-directory { margin-top: 38px; }
+.collection-directory a { color: #aeb2a4; padding-block: 20px; }
+.collection-directory a > span:nth-child(2) { font-size: clamp(32px, 3.15vw, 51px); }
+.collection-directory a.is-active .micro { color: #c8b28b; }
+.showcase-caption { font-size: 9px; color: #b6b9aa; }
+.approach-section { gap: 10vw; padding-block: 155px; align-items: center; }
+.approach-portrait { aspect-ratio: .78; }
+.approach-copy h2 { font-size: clamp(50px, 5vw, 82px); }
+.approach-intro { font-size: 14px; max-width: 370px; }
+.approach-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 35px; margin-block: 35px; }
+.approach-steps li { display: block; padding-block: 16px 8px; }
+.approach-steps li > .micro { display: block; color: var(--accent); margin: 0 0 14px; }
+.approach-steps h3 { font-size: 30px; }
+.approach-steps p { font-size: 12px; line-height: 1.85; }
+.visit-invitation { position: relative; isolation: isolate; padding-block: 115px 100px; background: #e4ddce; overflow: hidden; }
+.visit-image { position: absolute; z-index: -1; right: var(--page-padding); top: 70px; width: 24%; aspect-ratio: .8; opacity: .8; }
+.visit-invitation > .micro { color: #7c6c51; }
+.visit-invitation h2 { font-size: clamp(62px, 8.5vw, 148px); position: relative; max-width: 1000px; }
+.visit-invitation h2 em { color: #7b694d; }
+.visit-bottom { padding-left: 0; padding-right: 35%; margin-top: 55px; align-items: flex-end; }
+.visit-bottom p { font-size: 14px; max-width: 300px; }
+.visit-bottom address { font-size: 11px; }
+.round-link { font-size: 12px; gap: 22px; }
+.round-link-icon { width: 78px; border-color: #a49171; }
+.site-footer { padding-top: 40px; }
+.footer-wordmark { font-family: var(--font-serif), serif; font-weight: 400; letter-spacing: -.055em; font-size: clamp(70px, 17.1vw, 310px); margin-block: 65px 45px; }
+.footer-navigation { font-size: 12px; }
+.page-intro-description, .detail-intro { font-size: 14px; line-height: 1.95; }
+.page-intro h1 { font-size: clamp(65px, 7.3vw, 128px); }
+.wide-photograph, .atmosphere-card-image { overflow: hidden; }
+/* Collection opening: a photographic spread rather than a card index. */
+.collection-prologue { position: relative; min-height: calc(100svh - var(--header-height)); padding-top: 28px; padding-bottom: 65px; }
+.prologue-top { display: flex; justify-content: space-between; font-size: 9px; color: var(--muted); }
+.prologue-photograph { position: absolute; right: var(--page-padding); top: 80px; width: 57%; height: clamp(350px, 53svh, 680px); background: var(--surface); }
+.prologue-photograph img { object-position: 62% 50%; }
+.prologue-title { position: relative; z-index: 2; font: 400 clamp(105px, 12.2vw, 205px)/.86 var(--font-serif), serif; letter-spacing: -.065em; padding-top: clamp(65px, 10svh, 130px); pointer-events: none; }
+.prologue-title .title-line:nth-child(2) { padding-left: 4vw; }
+.prologue-title em { color: #554a3a; }
+.prologue-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 9vw; align-items: end; margin-top: clamp(50px, 8svh, 95px); }
+.prologue-bottom > p { max-width: 340px; font-size: 14px; line-height: 1.95; color: var(--muted); padding-left: 4vw; }
+.collection-index { display: grid; grid-template-columns: 1fr 1fr; gap: 0 35px; margin-top: 110px; }
+.collection-index a { display: flex; align-items: center; gap: 17px; border-bottom: 1px solid var(--line); min-height: 49px; font-size: 12px; }
+.collection-index a > span { color: var(--accent); font-size: 9px; letter-spacing: .04em; }
+.collection-index a svg { margin-left: auto; width: 14px; height: 14px; }
+.prologue-rule { display: block; height: 1px; background: var(--line); margin-top: 55px; }
+.collection-chapters { padding-block: 100px 140px; }
+.collection-chapter { display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 10vw; }
+.collection-chapter + .collection-chapter { margin-top: clamp(100px, 14vw, 220px); }
+.chapter-photograph { display: block; position: relative; aspect-ratio: .85; background: var(--surface); overflow: hidden; }
+.chapter-photo-note { position: absolute; bottom: 22px; left: 24px; color: #fff9ed; font-size: 8px; text-shadow: 0 1px 8px #0009; }
+.chapter-copy { padding-bottom: 20px; }
+.chapter-folio { display: flex; align-items: center; gap: 25px; color: var(--accent); font-size: 8px; }
+.chapter-folio > span:first-child { font: italic 400 33px/1 var(--font-serif), serif; letter-spacing: -.02em; }
+.chapter-copy h2 { font: 400 clamp(75px, 8.6vw, 145px)/.95 var(--font-serif), serif; letter-spacing: -.05em; margin-top: 32px; }
+.chapter-subtitle { font: italic 400 clamp(25px, 2.7vw, 43px)/1.2 var(--font-serif), serif; color: #806e51; max-width: 330px; margin-top: 25px; }
+.chapter-description { max-width: 320px; font-size: 14px; color: var(--muted); line-height: 1.95; margin-top: 24px; }
+.chapter-copy > .text-link { margin-top: 32px; font-size: 11px; }
+.collection-chapter:nth-child(even) { grid-template-columns: 1fr 1.2fr; }
+.collection-chapter:nth-child(even) .chapter-photograph { grid-column: 2; grid-row: 1; }
+.collection-chapter:nth-child(even) .chapter-copy { grid-column: 1; grid-row: 1; padding-left: 5vw; }
+.chapter-jaluzi .chapter-photograph { aspect-ratio: 1.1; }
+.chapter-ozel .chapter-copy h2 { font-size: clamp(56px, 5.5vw, 94px); }
+@media (min-width: 1900px) {
+  :root { --page-padding: max(104px, calc((100vw - 1720px) / 2)); }
+  .prologue-photograph { width: min(57%, 1000px); }
+}
+@media (max-width: 1100px) and (min-width: 769px) {
+  .collection-prologue { padding-bottom: 50px; }
+  .prologue-title { font-size: 12.7vw; }
+  .prologue-bottom { gap: 6vw; }
+  .prologue-bottom > p { padding-left: 0; font-size: 13px; }
+  .collection-index { gap: 0 22px; }
+  .collection-index a { font-size: 11px; gap: 12px; }
+  .collection-chapter { gap: 7vw; }
+  .visit-bottom { padding-right: 25%; }
+}
+@media (max-width: 768px) {
+  .title-line { padding-bottom: .14em; margin-bottom: -.14em; }
+  .story-intro { padding-block: 90px 100px; }
+  .story-margin .micro { max-width: none; font-size: 9px; }
+  .story-body h2 { font-size: clamp(43px, 10.8vw, 76px); }
+  .story-bottom { margin-top: 35px; gap: 25px; grid-template-columns: .5fr 1fr; }
+  .story-bottom p { font-size: 12px; line-height: 1.95; }
+  .story-swatch { aspect-ratio: .7; }
+  .atmosphere-heading h2 { font-size: clamp(55px, 12.5vw, 90px); }
+  .atmosphere-intro { font-size: 13px; max-width: 270px; }
+  .atmosphere-feature { padding-bottom: 110px; }
+  .collection-showcase { padding-top: 25px; padding-bottom: 70px; gap: 45px; }
+  .collection-showcase::before { height: 55px; top: -55px; }
+  .showcase-art { order: -1; width: 83%; align-self: flex-end; margin: -110px 0 0; }
+  .showcase-images { aspect-ratio: 1.05; }
+  .showcase-copy { padding-top: 0; }
+  .collection-showcase h2 { font-size: clamp(49px, 11vw, 78px); }
+  .showcase-intro { font-size: 13px; }
+  .collection-directory a > span:nth-child(2) { font-size: 37px; }
+  .showcase-caption { font-size: 8px; }
+  .approach-section { padding-block: 90px; gap: 55px; }
+  .approach-portrait { width: 80%; aspect-ratio: 1; }
+  .approach-copy h2 { font-size: clamp(49px, 11.7vw, 82px); }
+  .approach-intro { font-size: 13px; }
+  .approach-steps { gap: 18px 24px; margin-block: 30px; }
+  .approach-steps li { display: block; }
+  .approach-steps p { font-size: 11px; }
+  .approach-steps h3 { font-size: 28px; }
+  .visit-invitation { padding-block: 65px; }
+  .visit-image { top: 235px; width: 32%; right: var(--page-padding); opacity: .9; }
+  .visit-invitation h2 { font-size: clamp(49px, 11.5vw, 78px); }
+  .visit-bottom { padding: 0; gap: 30px; margin-top: 35px; align-items: flex-start; }
+  .visit-bottom > div { max-width: 62%; }
+  .visit-bottom p { font-size: 12px; }
+  .visit-bottom address { font-size: 10px; }
+  .round-link-icon { width: 66px; }
+  .footer-wordmark { font-size: 17.1vw; margin-block: 40px 28px; }
+  .footer-navigation { font-size: 11px; }
+  .page-intro h1 { font-size: clamp(54px, 12vw, 95px); }
+  .page-intro-description, .detail-intro { font-size: 13px; }
+  .collection-prologue { padding-top: 25px; padding-bottom: 0; min-height: auto; }
+  .prologue-top { font-size: 8px; }
+  .prologue-top > span:last-child { font-size: 7px; letter-spacing: .1em; }
+  .prologue-title { font-size: clamp(79px, 20vw, 142px); padding-top: 32px; line-height: .88; letter-spacing: -.055em; }
+  .prologue-title .title-line:nth-child(2) { padding-left: 7vw; }
+  .prologue-photograph { position: relative; float: right; top: auto; right: auto; width: 84%; height: auto; aspect-ratio: .98; margin-top: 158px; margin-left: -100%; }
+  .prologue-bottom { clear: both; display: block; margin-top: 35px; padding-top: 28px; }
+  .prologue-bottom > p { max-width: 320px; padding-left: 0; font-size: 13px; }
+  .collection-index { margin-top: 25px; gap: 0 23px; }
+  .collection-index a { font-size: 11px; min-height: 50px; gap: 11px; }
+  .prologue-rule { margin-top: 40px; }
+  .collection-chapters { padding-block: 55px 85px; }
+  .collection-chapter, .collection-chapter:nth-child(even) { display: flex; flex-direction: column; align-items: stretch; gap: 30px; }
+  .collection-chapter + .collection-chapter { margin-top: 75px; }
+  .chapter-photograph { width: 92%; aspect-ratio: .95; }
+  .collection-chapter:nth-child(even) .chapter-photograph { align-self: flex-end; }
+  .chapter-copy, .collection-chapter:nth-child(even) .chapter-copy { padding: 0 0 0 8%; }
+  .chapter-folio { font-size: 7px; gap: 18px; }
+  .chapter-folio > span:first-child { font-size: 26px; }
+  .chapter-copy h2 { font-size: 78px; margin-top: 15px; }
+  .chapter-subtitle { font-size: 30px; max-width: 280px; margin-top: 15px; }
+  .chapter-description { font-size: 13px; max-width: 300px; margin-top: 17px; }
+  .chapter-copy > .text-link { margin-top: 20px; }
+  .chapter-photo-note { left: 16px; bottom: 17px; font-size: 7px; }
+  .chapter-ozel .chapter-copy h2 { font-size: clamp(48px, 12vw, 72px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .title-line { overflow: visible; }
+}
