@@ -75,6 +75,7 @@ export const content = {
         title: "Günün ilk ışığı",
         subtitle: "TÜL / DOĞAL TONLAR",
         image: "/media/atmosphere/light.webp",
+          mobileImage: "/media/atmosphere/light-mobile-v1.webp",
         alt: "Tül perdelerden süzülen ışık ve doğal tonlarda sakin bir iç mekân; konsept görsel.",
       },
       {

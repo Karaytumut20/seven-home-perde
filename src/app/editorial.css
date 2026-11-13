@@ -355,3 +355,13 @@ html { scroll-behavior: auto; }
   .catalog-image:hover img, .atmosphere-card-image:hover img { transform: none; }
   .method-heading { position: relative; top: auto; }
 }
+
+@media (max-width: 768px) and (orientation: portrait) {
+  .expanding-project-stage, .expanding-project-anchor {
+    aspect-ratio: .72;
+    max-height: 70svh;
+  }
+  .expanding-project[data-expanding="true"] .expanding-project-stage {
+    max-height: none;
+  }
+}

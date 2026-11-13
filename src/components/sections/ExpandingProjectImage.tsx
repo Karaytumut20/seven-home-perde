@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MediaImage } from "@/components/ui/MediaImage";
 import Link from "next/link";
+import { getImageProps } from "next/image";
 import { Arrow } from "@/components/ui/Arrow";
 import { pages } from "@/content/pages";
 import {
@@ -16,6 +17,7 @@ import {
 type ProjectImage = {
   slug: string;
   image: string;
+  mobileImage?: string;
   alt: string;
   title: string;
   subtitle: string;
@@ -30,6 +32,15 @@ export function ExpandingProjectImage({
   index: number;
 }) {
   const root = useRef<HTMLElement>(null);
+  const mobileProps = project.mobileImage
+    ? getImageProps({
+        src: project.mobileImage,
+        alt: project.alt,
+        fill: true,
+        sizes: "125vw",
+        quality: 85,
+      }).props
+    : null;
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -160,13 +171,22 @@ export function ExpandingProjectImage({
           <div className="expanding-project-anchor" aria-hidden="true" />
           <div className="expanding-project-visual">
             <div className="expanding-project-plane">
-              <MediaImage
-                src={project.image}
-                alt={project.alt}
-                fill
-                sizes="(max-aspect-ratio: 3/2) 150vh, 100vw"
-                quality={85}
-              />
+              <picture>
+                {mobileProps && (
+                  <source
+                    media="(max-width: 768px) and (orientation: portrait)"
+                    srcSet={mobileProps.srcSet}
+                    sizes={mobileProps.sizes}
+                  />
+                )}
+                <MediaImage
+                  src={project.image}
+                  alt={project.alt}
+                  fill
+                  sizes="(max-aspect-ratio: 3/2) 150vh, 100vw"
+                  quality={85}
+                />
+              </picture>
             </div>
           </div>
         </div>
