@@ -23,13 +23,41 @@ export function IntroLoader() {
     let lastPath = window.location.pathname;
     let generation = 0;
     let disposed = false;
+    let contentHydrated = false;
     let active = false;
     let closing = false;
     let startedAt = 0;
     let opening = true;
     let deadline: ReturnType<typeof setTimeout> | undefined;
     let finishTimer: ReturnType<typeof setTimeout> | undefined;
+    let releaseTimer: ReturnType<typeof setTimeout> | undefined;
     let timeline: gsap.core.Timeline | undefined;
+    const inertStates = new Map<HTMLElement, boolean>();
+
+    const makeContentInert = () => {
+      if (!active || !contentHydrated) return;
+      document.querySelectorAll<HTMLElement>(
+        ".site-header, main, .site-footer, .menu-dialog, .skip-link, .no-script-nav",
+      ).forEach((surface) => {
+        if (!inertStates.has(surface)) inertStates.set(surface, surface.inert);
+        surface.inert = true;
+      });
+    };
+    const restoreContent = () => {
+      inertStates.forEach((wasInert, surface) => { surface.inert = wasInert; });
+      inertStates.clear();
+    };
+    const onContentHydrated = () => {
+      contentHydrated = true;
+      makeContentInert();
+    };
+    // A sibling layout effect can precede the streamed main's hydration. Only
+    // mutate its SSR attributes after Reveal confirms that React owns the DOM.
+    window.addEventListener("seven:content-hydrated", onContentHydrated);
+    // Next replaces the main content while the persistent layout stays mounted.
+    // Capture each replacement's original inert state rather than just the old page.
+    const contentObserver = new MutationObserver(makeContentInert);
+    contentObserver.observe(document.body, { childList: true, subtree: true });
 
     const announceReady = () => {
       delete document.documentElement.dataset.pageLoading;
@@ -38,21 +66,32 @@ export function IntroLoader() {
       }));
     };
 
+    const finalize = (ticket: number) => {
+      if (disposed || ticket !== generation || !active) return;
+      active = false;
+      closing = false;
+      clearTimeout(deadline);
+      clearTimeout(finishTimer);
+      clearTimeout(releaseTimer);
+      timeline?.kill();
+      timeline = undefined;
+      element.hidden = true;
+      element.dataset.state = "idle";
+      restoreContent();
+      announceReady();
+    };
+
     const finish = (ticket: number) => {
       if (disposed || ticket !== generation || !active || closing) return;
       closing = true;
       clearTimeout(deadline);
       clearTimeout(finishTimer);
       element.dataset.state = "opening";
+      // GSAP completion can be interrupted by refresh, tab throttling or a new
+      // render. Release the page independently of its animation callback.
+      releaseTimer = setTimeout(() => finalize(ticket), 1150);
       timeline = gsap.timeline({
-        onComplete: () => {
-          if (disposed || ticket !== generation) return;
-          active = false;
-          closing = false;
-          element.hidden = true;
-          element.dataset.state = "idle";
-          announceReady();
-        },
+        onComplete: () => finalize(ticket),
       });
       timeline.to(copy, {
         opacity: 0,
@@ -75,6 +114,7 @@ export function IntroLoader() {
       timeline?.kill();
       clearTimeout(deadline);
       clearTimeout(finishTimer);
+      clearTimeout(releaseTimer);
       active = true;
       closing = false;
       opening = isOpening;
@@ -86,6 +126,7 @@ export function IntroLoader() {
       document.documentElement.dataset.pageLoading = "true";
       // Install the fail-open timer before doing any animation or media work.
       deadline = setTimeout(() => finish(ticket), 3800);
+      makeContentInert();
       gsap.set(panels, { xPercent: 0, scaleX: 1, scaleY: 1 });
       gsap.set(copy, { opacity: 1, y: 0 });
       return ticket;
@@ -115,6 +156,7 @@ export function IntroLoader() {
         // navigation enter here directly, and receive the same visible transition.
         const ticket = active && !closing ? generation : begin(false);
         opening = false;
+        makeContentInert();
         settle(ticket);
       },
     };
@@ -143,7 +185,11 @@ export function IntroLoader() {
       generation += 1;
       clearTimeout(deadline);
       clearTimeout(finishTimer);
+      clearTimeout(releaseTimer);
       timeline?.kill();
+      contentObserver.disconnect();
+      window.removeEventListener("seven:content-hydrated", onContentHydrated);
+      restoreContent();
       document.removeEventListener("click", coverInternalNavigation, true);
       controller.current = null;
       delete document.documentElement.dataset.pageLoading;

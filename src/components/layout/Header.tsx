@@ -14,6 +14,12 @@ export function Header() {
   const toggle = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
+    // History navigation can change routes without activating a menu link.
+    // The native close event restores React state and the body scroll settings.
+    if (dialog.current?.open) dialog.current.close();
+  }, [pathname]);
+
+  useEffect(() => {
     if (!open) return;
     const element = dialog.current;
     const returnFocus = toggle.current;

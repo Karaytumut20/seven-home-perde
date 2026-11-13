@@ -15,7 +15,7 @@ export const content = {
     directions: "Yol tarifi",
     skip: "İçeriğe geç",
     discover: "Koleksiyonu keşfedin",
-    scroll: "HİKÂYEYİ KEŞFET",
+    scroll: "YAKLAŞIMIMIZI KEŞFEDİN",
     backTop: "Başa dön",
     phone: "Bizi arayın",
     whatsapp: "WhatsApp",

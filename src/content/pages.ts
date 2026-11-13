@@ -8,6 +8,7 @@ export const pages = {
     contact: "Birlikte düşünelim",
     contactPage: "İletişime geçin",
     nextCollection: "Sıradaki doku",
+    nextAtmosphere: "Sıradaki atmosfer",
     backCollections: "Koleksiyona dön",
     backAtmospheres: "Mekânlara dön",
     detail: "YAKINDAN BİR BAKIŞ",

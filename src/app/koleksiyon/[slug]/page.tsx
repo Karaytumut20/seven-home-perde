@@ -7,6 +7,7 @@ import { Arrow } from "@/components/ui/Arrow";
 import { pages } from "@/content/pages";
 import { collections } from "@/data/collections";
 import { pageMetadata } from "@/lib/metadata";
+import { NextEditorial } from "@/components/sections/NextEditorial";
 
 type Props = { params: Promise<{ slug: string }> };
 export const dynamicParams = false;
@@ -37,7 +38,7 @@ export default async function CollectionDetailPage({ params }: Props) {
       <figure className="detail-hero-image" data-enter><MediaImage src={item.image} alt={item.alt} fill sizes="(max-width: 768px) 90vw, 45vw" loading="eager" fetchPriority="high" /><figcaption className="micro">{pages.ui.imageNote}</figcaption></figure>
     </section>
     <section className="detail-story section-padding" aria-labelledby="detail-story-title"><p className="micro">{pages.ui.detail}</p><div><h2 id="detail-story-title" data-reveal>{item.story}</h2><div className="detail-notes">{item.details.map((detail, i) => <article key={detail.title} data-reveal><span className="micro">0{i + 1}</span><h3>{detail.title}</h3><p>{detail.text}</p></article>)}</div></div></section>
-    <Link href={`/koleksiyon/${next.slug}`} className="next-story section-padding"><span className="micro">{pages.ui.nextCollection}</span><span className="next-story-title">{next.title}<Arrow diagonal /></span></Link>
+    <NextEditorial href={`/koleksiyon/${next.slug}`} label={pages.ui.nextCollection} title={next.title} image={next.image} alt={next.alt} />
     <ContactCTA />
   </PageLayout>;
 }

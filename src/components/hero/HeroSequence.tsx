@@ -10,8 +10,8 @@ import {
   coverRect,
   frameIndex,
   nearestFrame,
-  SequenceLoader,
 } from "@/lib/sequence";
+import { PackedSequenceLoader } from "@/lib/packed-sequence";
 import { Arrow } from "@/components/ui/Arrow";
 import Link from "next/link";
 
@@ -45,7 +45,7 @@ export function HeroSequence() {
         let disposed = false;
         let visible = true;
         const ctx = surface.getContext("2d", { alpha: false });
-        let loader: SequenceLoader | undefined;
+        let loader: PackedSequenceLoader | undefined;
 
         const draw = () => {
           raf = 0;
@@ -71,7 +71,8 @@ export function HeroSequence() {
           );
           currentDrawn = image;
           // Expose the displayed source frame for diagnostics without React re-renders.
-          surface.dataset.frame = image.src.match(/frame-(\d+)\./)?.[1] || "";
+          const displayedIndex = [...loader.frames].find(([, frame]) => frame === image)?.[0] ?? 0;
+          surface.dataset.frame = String(displayedIndex + 1).padStart(4, "0");
           surface.style.opacity = "1";
         };
         const requestDraw = () => {
@@ -80,9 +81,12 @@ export function HeroSequence() {
         const resize = () => {
           if (disposed) return;
           const bounds = surface.getBoundingClientRect();
+          const covered = coverRect({ width: 1280, height: 720 }, bounds.width, bounds.height);
           const dpr = Math.min(
             window.devicePixelRatio || 1,
             HERO_SEQUENCE.maxDpr,
+            1280 / Math.max(1, covered.width),
+            720 / Math.max(1, covered.height),
           );
           surface.width = Math.round(bounds.width * dpr);
           surface.height = Math.round(bounds.height * dpr);
@@ -92,10 +96,10 @@ export function HeroSequence() {
           requestDraw();
         };
         if (variant.frameCount > 0) {
-          loader = new SequenceLoader({
+          loader = new PackedSequenceLoader({
             count: variant.frameCount,
-            path: variant.path,
-            extension: variant.extension,
+            path: variant.bundlePath,
+            bundleSize: HERO_SEQUENCE.bundleSize,
             concurrency: HERO_SEQUENCE.concurrency,
             maxCache: HERO_SEQUENCE.maxCachedFrames,
             onFrame: requestDraw,
@@ -115,30 +119,33 @@ export function HeroSequence() {
         resizeObserver.observe(surface);
         const indicator = root.querySelector(".hero-scroll");
         let currentCopy = -1;
-        const trigger = ScrollTrigger.create({
-          trigger: root,
-          start: "top top",
-          end: "bottom bottom",
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            progress = self.progress;
+        const syncProgress = (nextProgress: number, immediate = false) => {
+            progress = nextProgress;
             loader?.seek(frameIndex(progress, variant.frameCount));
             requestDraw();
             const index = Math.min(
               content.hero.copy.length - 1,
               Math.floor(progress * content.hero.copy.length),
             );
-            if (index !== currentCopy) {
+            if (index !== currentCopy || immediate) {
               copies.current.forEach((copy, i) => {
-                if (copy)
-                  gsap.to(copy, {
+                if (!copy) return;
+                const state = {
                     autoAlpha: i === index ? 1 : 0,
                     y: i === index ? 0 : -16,
+                };
+                if (immediate) {
+                  gsap.killTweensOf(copy);
+                  gsap.set(copy, state);
+                } else {
+                  gsap.to(copy, {
+                    ...state,
                     duration: i === index ? 0.65 : 0.2,
                     delay: i === index ? 0.2 : 0,
                     overwrite: true,
                     ease: "power2.out",
                   });
+                }
               });
               currentCopy = index;
               if (sceneNumber.current)
@@ -150,9 +157,23 @@ export function HeroSequence() {
             gsap.set(progressLine.current, { scaleX: progress });
             if (indicator)
               gsap.set(indicator, { opacity: Math.max(0, 1 - progress * 9) });
+        };
+        const playhead = { progress: 0 };
+        const animation = gsap.to(playhead, {
+          progress: 1,
+          ease: "none",
+          onUpdate: () => syncProgress(playhead.progress),
+          scrollTrigger: {
+          trigger: root,
+          start: "top top",
+          end: "bottom bottom",
+          invalidateOnRefresh: true,
+          scrub: HERO_SEQUENCE.scrubSeconds,
+          onRefresh: (self) => { playhead.progress = self.progress; syncProgress(self.progress, true); },
           },
         });
-        progress = trigger.progress;
+        const trigger = animation.scrollTrigger!;
+        syncProgress(trigger.progress, true);
         resize();
         const ready = () => {
           if (!disposed) {
@@ -164,6 +185,7 @@ export function HeroSequence() {
         return () => {
           disposed = true;
           trigger.kill();
+          animation.kill();
           observer.disconnect();
           resizeObserver.disconnect();
           loader?.destroy();
@@ -254,8 +276,8 @@ export function HeroSequence() {
         </div>
         <div className="hero-bottom">
           <Link className="hero-scroll micro" href="/yaklasim">
-            <span className="circle-arrow">
-              <Arrow />
+            <span className="hero-wayfinder-icon">
+              <Arrow diagonal />
             </span>
             {content.ui.scroll}
           </Link>

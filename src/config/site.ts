@@ -24,6 +24,7 @@ export type SequenceVariant = {
   frameCount: number;
   path: string;
   extension: string;
+  bundlePath: string;
 };
 
 // User-supplied 240-frame video, plus a lighter portrait sequence.
@@ -34,12 +35,15 @@ export const HERO_SEQUENCE = {
     frameCount: 240,
     path: "/media/hero/desktop-hq",
     extension: "jpg",
+    bundlePath: "/media/hero/packed-v1/desktop",
   },
-  mobile: { frameCount: 121, path: "/media/hero/mobile-hq", extension: "jpg" },
+  mobile: { frameCount: 121, path: "/media/hero/mobile-hq", extension: "jpg", bundlePath: "/media/hero/packed-v1/mobile" },
   poster: "/media/hero/desktop-hq/frame-0001.jpg",
   mobilePoster: "/media/hero/mobile-hq/frame-0001.jpg",
   maxDpr: 2,
   concurrency: 3,
+  bundleSize: 32,
+  scrubSeconds: 0.65,
   maxCachedFrames: 18,
 } satisfies {
   desktop: SequenceVariant;
@@ -48,5 +52,7 @@ export const HERO_SEQUENCE = {
   mobilePoster: string;
   maxDpr: number;
   concurrency: number;
+  bundleSize: number;
+  scrubSeconds: number;
   maxCachedFrames: number;
 };

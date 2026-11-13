@@ -11,6 +11,9 @@ export function Reveal({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
+    // Parent layout effects can run before a streamed page hydrates. Tell the
+    // loader when it is safe to apply temporary inert attributes to this page.
+    window.dispatchEvent(new Event("seven:content-hydrated"));
     gsap.registerPlugin(ScrollTrigger);
     const media = gsap.matchMedia();
     let started = false;

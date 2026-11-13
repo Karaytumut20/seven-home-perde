@@ -1,5 +1,22 @@
 # Doğrulama — 3 Kasım 2026
 
+## Hero ağ ve kaydırma performansı
+
+- Canlı JPEG yanıtları `public, max-age=0, must-revalidate` döndürüyordu; 240 ayrı dosya yerine özgün JPEG baytlarını içeren 8 masaüstü / 4 mobil paket hazırlandı.
+- Paketlerin tüm 361 kaynak JPEG ile bayt eşitliği test edildi. Kodlanmış veriler saklanır; çözülen görseller sınırlı önbellekte tutulur. İleri/geri gezinme testi ek ağ isteği oluşturmadı.
+- GSAP scrub 0.65 saniye; canvas ara yüzeyi kaynak çözünürlüğüyle sınırlandırıldı. Hero kompozisyonu değişmedi.
+- Üretimde paket HTTP 200 ve immutable önbellek başlığı doğrulandı. Tarayıcıda 0001 → 0081 → 0001 kare ilerlemesi ve temiz konsol gözlendi.
+- 8 test, lint, TypeScript ve üretim derlemesi başarılı. Canlı ortamın bu kodu kullanması için yeniden deploy gerekir; değişiklikler canlıya otomatik gönderilmedi.
+
+## 13 Kasım 2026 — kalite ve gezinme düzeltmeleri
+
+- Fon ve jaluzi için iki yeni, yüksek çözünürlüklü özgün konsept fotoğrafı eklendi. Kaynaklar ve üretim istemleri `public/media/editorial/ASSETS.md` içinde.
+- Küçük metin kontrastları güçlendirildi, mobil koleksiyon etiketleri büyütüldü. Mekânlar galerisinde fotoğraflar, başlıklar ve hikâye özetleri ayrı animasyonlarla düzenlendi.
+- Her mekân ve koleksiyon detayına fotoğraflı sonraki içerik bağlantısı eklendi.
+- Yükleme kapanışının GSAP tamamlanma olayına bağımlılığı kaldırıldı; bağımsız zaman sınırı içeriği serbest bırakır. Klavye koruması için inert, sayfa hidrasyonundan sonra uygulanır ve çıkışta eski duruma döner.
+- Üretim önizlemesinde temiz konsol, yükleme sonrası `idle`, içerikte `inert=false` ve 0 px yatay taşma doğrulandı. 11 içerik adresi HTTP 200 ve tek H1 verdi.
+- Lint, TypeScript, 6 sekans/geometri testi ve üretim derlemesi başarılı.
+
 ## 4 Kasım 2026 — görünür yükleme ve malzeme odaklı geçişler
 
 - Yükleme katmanı kalıcı layout içinde artık her `pathname` değişiminde yeniden gösterilir. İlk açılış ve Koleksiyon → Yaklaşım tıklamasında koyu Türkçe ekran görsel olarak doğrulandı. Geçiş sırasında `data-state=loading` ve `data-page-loading=true`; tamamlanınca `hidden`/`idle` durumuna döner.

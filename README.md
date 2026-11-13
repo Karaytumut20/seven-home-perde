@@ -53,6 +53,8 @@ Harita, verilen işletme adresinden oluşturulmuş bir Google Maps arama bağlan
 
 ## Görseller
 
+13 Kasım kalite güncellemesinde Fon ve Jaluzi fotoğrafları yenilendi: `public/media/editorial/linen-wool-study-v1.webp` ve `public/media/editorial/walnut-blinds-study-v1.webp`. Bunlar yerleşik image_gen ile üretilen özgün konsept çalışmalardır. Tam istemler, boyutlar ve kaynak bilgisi `public/media/editorial/ASSETS.md` dosyasındadır; gerçek Seven Home uygulaması olarak sunulmaz. Güncel görsel yollarının kaynağı `src/data/collections.ts` dosyasıdır.
+
 Hero, `Yeni klasör` içindeki kullanıcı tarafından sağlanan 240 video karesini kullanır. Diğer bölümler için iki özgün **yapay zekâ konsept görseli** ve yerel bir jaluzi doku kompozisyonu bulunur. Hiçbiri doğrulanmadan gerçek Seven Home uygulaması veya mağaza fotoğrafı olarak sunulmaz. Kaynakları ve kullanılan tam promptlar `public/media/ASSETS.md` dosyasındadır. Rakip görseli, hotlink veya harici stok görsel kullanılmaz.
 
 | Kullanım                 | Değiştirilecek dosya                                  |
@@ -69,6 +71,10 @@ Dosya adlarını koruyarak görselleri değiştirin veya veri dosyalarındaki yo
 Normal görseller responsive boyutlar ve lazy loading ile `next/image` üzerinden sunulur. Hero posteri ve sekans ise orijinal JPEG'i korur. `<picture>` ilgili cihazın posterini seçer; iki poster birden öncelikli indirilmez. Masaüstü JPEG sekansı toplam 13.21 MiB; bunun tamamı açılışta indirilmez. İlk kare poster olarak hemen görünür.
 
 ## Güncel tasarım ve görüntü kalitesi
+
+Hero performansı: aktif sekans artık orijinal JPEG baytlarını 32 karelik paketlerle taşır (`public/media/hero/packed-v1`). Masaüstü 240 yerine 8, mobil 121 yerine 4 ağ isteği kullanır. Kod yalnızca yakındaki kareleri çözer; sıkıştırılmış veriyi geri kaydırma için tutar. GSAP 0.65 saniyelik scrub ile kaydırmayı yumuşatır. Canvas kaynak çözünürlüğünden büyük ara yüzey üretmez. Görsellerin çözünürlüğü ve JPEG kalitesi değişmedi.
+
+Kareleri değiştirince `node scripts/pack-hero.mjs` çalıştırın. Paketler immutable önbellek kullandığından yeni görüntü sürümünde `packed-v1` klasörünü ve config/header yollarını birlikte yeni sürüme taşıyın. Bu güncellemenin canlıya geçmesi için Vercel'e yeniden deploy gerekir.
 
 Araştırma referansları: [House of Honey / Awwwards](https://www.awwwards.com/sites/house-of-honey-1) ve [Floema / Awwwards](https://www.awwwards.com/sites/floema). Canlı siteler incelendi. House of Honey’nin editoryal içerik hiyerarşisi ve fotoğraf oranları; Floema’nın kontrollü ölçek geçişleri ve hikâye bazlı dolaşımı tasarım yönünü besledi. Görselleri, kodları ve özgün tasarımları kopyalanmadı.
 

@@ -19,8 +19,8 @@ export const collections = [
     subtitle: "Mekâna derinlik katan katman.",
     description:
       "Pencereyi çerçeveleyen, renk ve dokuyla mekânın karakterini tamamlayan kumaşlar.",
-    image: "/media/collections/fon.webp",
-    alt: "Sıcak kahverengi fon kumaşının kıvrımları; konsept görsel.",
+    image: "/media/editorial/linen-wool-study-v1.webp",
+    alt: "Fildişi ve sıcak kahve tonlarında dokuma kumaş kıvrımları; konsept görsel.",
     story: "Fon, pencereyi çevreleyen bir çizgiden çok daha fazlası. Kumaşın dokusu, ağırlığı ve renk derinliği, odanın bütününe yeni bir katman ekler.",
     details: [
       { title: "Katman", text: "Tülle birlikte ya da tek başına; fonun mekândaki rolünü yaşam alışkanlıklarınıza göre belirleriz." },
@@ -34,8 +34,8 @@ export const collections = [
     subtitle: "Işıkla kurulan bir denge.",
     description:
       "Günün değişen ışığına yön veren çizgiler, sade ve mimari bir ifade.",
-    image: "/media/collections/jaluzi.webp",
-    alt: "Yatay jaluzi çizgileri ve ışık gölgeleri; temsili doku çalışması.",
+    image: "/media/editorial/walnut-blinds-study-v1.webp",
+    alt: "Ceviz tonunda ahşap jaluzi ve sıva yüzeyde geometrik gün ışığı; konsept görsel.",
     story: "Işığı yalnızca içeri almak değil, ona yön vermek. Jaluzinin çizgisel yapısı, pencereye sade bir ifade kazandırırken günün farklı saatlerine uyum sağlar.",
     details: [
       { title: "Işık yönü", text: "Dilim açısını ve pencerenin yönünü birlikte düşünerek ışık ve mahremiyet dengesini ele alırız." },
